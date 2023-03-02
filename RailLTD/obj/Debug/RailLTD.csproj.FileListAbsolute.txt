@@ -1,0 +1,11 @@
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\bin\Debug\RailLTD.exe.config
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\bin\Debug\RailLTD.exe
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\bin\Debug\RailLTD.pdb
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.csproj.AssemblyReference.cache
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.csproj.SuggestedBindingRedirects.cache
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.LTDWindow.resources
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.Properties.Resources.resources
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.csproj.GenerateResource.cache
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.csproj.CoreCompileInputs.cache
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.exe
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.pdb
