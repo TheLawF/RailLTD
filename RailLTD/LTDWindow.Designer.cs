@@ -75,6 +75,8 @@ namespace RailLTD
             this.showLTD = new System.Windows.Forms.Button();
             this.lineChoseBox = new System.Windows.Forms.ComboBox();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.addToLineButton = new System.Windows.Forms.Label();
+            this.addToBox = new System.Windows.Forms.ComboBox();
             this.homePanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,7 +101,7 @@ namespace RailLTD
             // numLabel
             // 
             this.numLabel.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.numLabel.Location = new System.Drawing.Point(999, 26);
+            this.numLabel.Location = new System.Drawing.Point(1006, 26);
             this.numLabel.Name = "numLabel";
             this.numLabel.Size = new System.Drawing.Size(243, 50);
             this.numLabel.TabIndex = 6;
@@ -107,7 +109,7 @@ namespace RailLTD
             // 
             // numText
             // 
-            this.numText.Location = new System.Drawing.Point(1255, 23);
+            this.numText.Location = new System.Drawing.Point(1255, 20);
             this.numText.Name = "numText";
             this.numText.Size = new System.Drawing.Size(320, 56);
             this.numText.TabIndex = 7;
@@ -182,7 +184,7 @@ namespace RailLTD
             this.crtLabel.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.crtLabel.Location = new System.Drawing.Point(601, 29);
             this.crtLabel.Name = "crtLabel";
-            this.crtLabel.Size = new System.Drawing.Size(205, 50);
+            this.crtLabel.Size = new System.Drawing.Size(241, 50);
             this.crtLabel.TabIndex = 15;
             this.crtLabel.Text = "选择线路：";
             // 
@@ -199,6 +201,8 @@ namespace RailLTD
             // 
             // homePanel
             // 
+            this.homePanel.Controls.Add(this.addToBox);
+            this.homePanel.Controls.Add(this.addToLineButton);
             this.homePanel.Controls.Add(this.findLineLabel);
             this.homePanel.Controls.Add(this.lineListBox);
             this.homePanel.Controls.Add(this.findStLabel);
@@ -269,7 +273,7 @@ namespace RailLTD
             this.findStLabel.Name = "findStLabel";
             this.findStLabel.Size = new System.Drawing.Size(217, 62);
             this.findStLabel.TabIndex = 52;
-            this.findStLabel.Text = "查找车站：";
+            this.findStLabel.Text = "车站列表：";
             // 
             // stationListBox
             // 
@@ -299,6 +303,7 @@ namespace RailLTD
             this.stRemoveButton.TabIndex = 49;
             this.stRemoveButton.Text = "删除车站";
             this.stRemoveButton.UseVisualStyleBackColor = true;
+            this.stRemoveButton.Click += new System.EventHandler(this.stRemoveButton_Click);
             // 
             // addLineButton
             // 
@@ -309,6 +314,7 @@ namespace RailLTD
             this.addLineButton.TabIndex = 48;
             this.addLineButton.Text = "添加线路";
             this.addLineButton.UseVisualStyleBackColor = true;
+            this.addLineButton.Click += new System.EventHandler(this.addLineButton_Click);
             // 
             // exitNumBox
             // 
@@ -494,11 +500,29 @@ namespace RailLTD
             // 
             this.lineChoseBox.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lineChoseBox.FormattingEnabled = true;
-            this.lineChoseBox.Location = new System.Drawing.Point(812, 23);
+            this.lineChoseBox.Location = new System.Drawing.Point(848, 23);
             this.lineChoseBox.Name = "lineChoseBox";
             this.lineChoseBox.Size = new System.Drawing.Size(145, 56);
             this.lineChoseBox.TabIndex = 16;
             this.lineChoseBox.SelectedIndexChanged += new System.EventHandler(this.lineChoseBox_SelectedIndexChanged);
+            // 
+            // addToLineButton
+            // 
+            this.addToLineButton.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.addToLineButton.Location = new System.Drawing.Point(1009, 429);
+            this.addToLineButton.Name = "addToLineButton";
+            this.addToLineButton.Size = new System.Drawing.Size(271, 55);
+            this.addToLineButton.TabIndex = 55;
+            this.addToLineButton.Text = "附加至线路：";
+            // 
+            // addToBox
+            // 
+            this.addToBox.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.addToBox.FormattingEnabled = true;
+            this.addToBox.Location = new System.Drawing.Point(1255, 423);
+            this.addToBox.Name = "addToBox";
+            this.addToBox.Size = new System.Drawing.Size(145, 56);
+            this.addToBox.TabIndex = 56;
             // 
             // LTDWindow
             // 
@@ -506,12 +530,18 @@ namespace RailLTD
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1908, 1051);
             this.Controls.Add(this.homePanel);
+            this.KeyPreview = true;
             this.Name = "LTDWindow";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.LTDWindow_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.LTDWindow_KeyPress);
             this.homePanel.ResumeLayout(false);
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.ComboBox addToBox;
+
+        private System.Windows.Forms.Label addToLineButton;
 
         private System.Windows.Forms.Label findLineLabel;
         private System.Windows.Forms.ComboBox lineListBox;

@@ -28,7 +28,7 @@ namespace RailLTD
         private int _intervalTo;
         private int _carrigeIndex = 1;
 
-        private readonly List<string> _stations = new List<string>();
+        private readonly List<Station> _stations = new List<Station>();
         private readonly List<TimeTable> _timeTable = new List<TimeTable>();
         private readonly List<string> _exits = new List<string>();
         private readonly HashSet<List<string>> _stationAndExit = new HashSet<List<string>>();
@@ -60,13 +60,31 @@ namespace RailLTD
             _graphics.SmoothingMode = SmoothingMode.AntiAlias;
             var start = new Point(0, Size.Height / 2);
             var end = new Point(Size.Width, Size.Height / 2);
+            var unit = 1;
+            if (_stations.Count > 0)
+            {
+                unit = Size.Width / _stations.Count;
+            }
             
             // 准备绘制线条，如果用户在下拉框中点击“不选择”这一元素，则flag更改为false，
             var customPen = new Pen(Color.FromArgb(_red, _green, _blue) , 30);
             _graphics.DrawLine(customPen,start, end);
-            _graphics.FillEllipse(new SolidBrush(Color.White),
-                new Rectangle(new Point(start.X, start.Y-15), Size.Round(new SizeF(28F, 28F))));
-            var ltd = new LtdUtil();
+            var font = new Font("微软雅黑", 13.875F, 
+                FontStyle.Regular,GraphicsUnit.Point, 134);
+            
+            for (var i = 0; i < _stations.Count; i++)
+            {
+                _graphics.FillEllipse(new SolidBrush(Color.White),
+                    new Rectangle(new Point(i * unit, start.Y-15),
+                        Size.Round(new SizeF(28F, 28F))));
+                
+                for (var j = 0; j < _stations[i].Name.ToCharArray().Length; j++)
+                {
+                    var str = _stations[i].Name.ToCharArray()[j].ToString();
+                    _graphics.DrawString(str, font, new SolidBrush(Color.Black),
+                        i * unit, start.Y + 12 + j * 15f);
+                }
+            }
         }
 
         // 重写更改窗体大小的事件，以便让其适用于线段的绘制
@@ -77,12 +95,31 @@ namespace RailLTD
             _graphics = CreateGraphics();
             _graphics.Clear(BackColor);
             _graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            
             var start = new Point(0, Size.Height / 2);
             var end = new Point(Size.Width, Size.Height / 2);
+            var unit = 1;
+            if (_stations.Count > 0)
+            {
+                unit = Size.Width / _stations.Count;
+            }
+            
+            var font = new Font("微软雅黑", 13.875F, 
+                FontStyle.Regular,GraphicsUnit.Point, 134);
+            
             _graphics.DrawLine(customPen,start, end);
-            _graphics.FillEllipse(new SolidBrush(Color.White),
-                new Rectangle(new Point(start.X, start.Y-15), Size.Round(new SizeF(28F, 28F))));
-
+            for (var i = 0; i < _stations.Count; i++)
+            {
+                _graphics.FillEllipse(new SolidBrush(Color.White),
+                    new Rectangle(new Point(i * unit, start.Y-15), Size.Round(new SizeF(28F, 28F))));
+                for (var j = 0; j < _stations[i].Name.ToCharArray().Length; j++)
+                {
+                    var str = _stations[i].Name.ToCharArray()[j].ToString();
+                    _graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    _graphics.DrawString(str, font, new SolidBrush(Color.Black),
+                        i * unit, start.Y + 12f + j * 15f);
+                }
+            }
         }
 
         private void idText_TextChanged(object sender, EventArgs e)
@@ -162,31 +199,21 @@ namespace RailLTD
         private void confirmButton_Click(object sender, EventArgs e)
         {
             if (stationAddText.Text == null) return;
-            _stations.Add(stationAddText.Text);
+            int.TryParse(exitNumBox.Text, out var num);
+            var station = new Station(
+                stationAddText.Text,
+                exitInfoBox.Text,
+                num);
+            _stations.Add(station);
             // stationDeleteBox.Items.Add(stationAddText.Text);
             fromComboBox.Items.Add(stationAddText.Text);
             toComboBox.Items.Add(stationAddText.Text);
             stationAddText.Text = @"";
-            stationListBox.Items.AddRange(new object[] { _stations });
+            _stations.ForEach(s => stationListBox.Items.Add(s.Name));
+            // AddInterval();
         }
 
-        private void removeStation_Click(object sender, EventArgs e)
-        {
-            // if (stationDeleteBox.Items.Count == 0) return;
-            // _stations.Remove(stationDeleteBox.SelectedText);
-            // stationDeleteBox.Items.RemoveAt(stationDeleteBox.SelectedIndex);
-            fromComboBox.Items.Remove(stationAddText.Text);
-            toComboBox.Items.Remove(stationAddText.Text);
-        }
-
-        private void stationDeleteBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // if (stationDeleteBox.Items.Count == 0) return;
-            // _stations.Remove(stationDeleteBox.SelectedText);
-            //stationDeleteBox.Items.RemoveAt(stationDeleteBox.SelectedIndex);
-        }
-
-        private void addInterval_Click(object sender, EventArgs e)
+        private void AddInterval()
         {
             
             if (_stations.Count <= 1) return;
@@ -195,14 +222,14 @@ namespace RailLTD
             foreach (var station in _stations)
             {
                 timeList.AddLast(new LinkedListNode<TimeTable>(
-                        new TimeTable(station, time)));
-                _timeTable.Add(new TimeTable(station, time));
+                        new TimeTable(station.Name, time)));
+                _timeTable.Add(new TimeTable(station.Name, time));
                 // intervalListBox.Items.Add(station + ": " + time + "分钟");
                 
             }
         }
 
-        private void removeInterval_Click(object sender, EventArgs e)
+        private void RemoveInterval()
         {
             if (_stations.Count <= 1) return;
             var time = int.Parse(intervalBox.Text.Substring(0,1));
@@ -244,25 +271,6 @@ namespace RailLTD
             }
         }
 
-        protected override void OnKeyPress(KeyPressEventArgs e)
-        {
-            base.OnKeyPress(e);
-            if (e.KeyChar == (int)Keys.Escape)
-            {
-                
-            }
-
-            if (e.KeyChar == (int)Keys.Left && _carrigeIndex >= 1)
-            {
-                _carrigeIndex++;
-            }
-
-            if (e.KeyChar == (int)Keys.Right && _carrigeIndex <= 6)
-            {
-                _carrigeIndex--;
-            }
-        }
-
         private void MsText_TextChanged(object sender, EventArgs e)
         {
             if (int.TryParse(msText.Text, out var ms))
@@ -284,6 +292,41 @@ namespace RailLTD
             // stationDeleteBox.Items.Add(stationAddText.Text);
             exitInfoBox.Text = @"";
         
+        }
+
+        private void stRemoveButton_Click(object sender, EventArgs e)
+        {
+            if (_stations.Any()) return;
+            _stations.ForEach(s =>
+            {
+                if (!Equals(s.Name, stationListBox.SelectedText)) return;
+                stationListBox.Items.Remove(stationListBox.SelectedText);
+                _stations.Remove(s);
+            });
+        }
+
+        private void LTDWindow_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (int)Keys.Escape)
+            {
+                var dialog = new SettingsDialog();
+                dialog.ShowDialog();
+            }
+
+            if (e.KeyChar == (int)Keys.Left && _carrigeIndex >= 1)
+            {
+                _carrigeIndex++;
+            }
+
+            if (e.KeyChar == (int)Keys.Right && _carrigeIndex <= 6)
+            {
+                _carrigeIndex--;
+            }
+        }
+
+        private void addLineButton_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

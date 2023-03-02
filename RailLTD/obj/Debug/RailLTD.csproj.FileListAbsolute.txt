@@ -9,3 +9,4 @@ D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.csproj.Gener
 D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.csproj.CoreCompileInputs.cache
 D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.exe
 D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.pdb
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.SettingsDialog.resources
