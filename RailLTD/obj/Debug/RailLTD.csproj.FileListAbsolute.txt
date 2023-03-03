@@ -10,3 +10,8 @@ D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.csproj.CoreC
 D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.exe
 D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.pdb
 D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.SettingsDialog.resources
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\bin\Debug\Newtonsoft.Json.dll
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\bin\Debug\Newtonsoft.Json.xml
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.csproj.CopyComplete
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.LineSettingsWindow.resources
+D:\codelib\mysrc\railLTDcsVersion\RailLTD\RailLTD\obj\Debug\RailLTD.LtdScene.resources

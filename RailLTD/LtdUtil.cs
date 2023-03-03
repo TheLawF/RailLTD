@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
 using Newtonsoft.Json;
-using Timer = System.Timers.Timer;
 
 namespace RailLTD
 {
@@ -29,6 +26,9 @@ namespace RailLTD
             return width / (stationCount + 1);
         }
 
+        /// <summary>
+        /// 等等，这里怎么还有一个LoadHomeScene 方法？？？
+        /// </summary>
         public static void LoadHomeScene()
         {
             
@@ -36,11 +36,14 @@ namespace RailLTD
 
         /// <summary>
         /// 在这里启动轨道交通乘客信息显示屏的多个线程，根据传入的索引值调用不同的
-        /// 静态方法，循环绘制不同的乘客信息显示，timer.interval 决定着每幅画面
-        /// 存在的时间。
+        /// 方法，循环绘制不同的乘客信息显示。
+        /// 
+        /// 现在还用不到 interval 这个参数
         /// </summary>
-        /// <param name="flag"></param>
-        /// <param name="elapsedMilliseconds"></param>
+        /// <param name="flag"> 用于决定是否应该跳出三幅画面的循环切换 </param>
+        /// <param name="elapsedMilliseconds"> 每幅画面的存在时间 </param>
+        /// <param name="interval"> 两个站之间所需的时间，用于跳出循环 </param>
+        /// <param name="carriageIndex"> 车厢的索引标号，用于决定车厢画面的数字 </param>
         public void LoadLtdScene(bool flag, int interval, int carriageIndex, long elapsedMilliseconds)
         {
             var pool = new List<Thread>
@@ -135,8 +138,6 @@ namespace RailLTD
             var type = o.GetType();
             var output = JsonConvert.SerializeObject(o);
         }
-
-
     }
     
 }

@@ -51,6 +51,18 @@
     <ItemGroup>
         <Compile Include="CRTColor.cs" />
         <Compile Include="InputUtil.cs" />
+        <Compile Include="LineSettingsWindow.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="LineSettingsWindow.Designer.cs">
+          <DependentUpon>LineSettingsWindow.cs</DependentUpon>
+        </Compile>
+        <Compile Include="LtdScene.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="LtdScene.Designer.cs">
+          <DependentUpon>LtdScene.cs</DependentUpon>
+        </Compile>
         <Compile Include="RailLine.cs" />
         <Compile Include="LtdUtil.cs" />
         <Compile Include="LTDWindow.cs">
@@ -69,6 +81,12 @@
         </Compile>
         <Compile Include="Station.cs" />
         <Compile Include="TimeTable.cs" />
+        <EmbeddedResource Include="LineSettingsWindow.resx">
+          <DependentUpon>LineSettingsWindow.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Include="LtdScene.resx">
+          <DependentUpon>LtdScene.cs</DependentUpon>
+        </EmbeddedResource>
         <EmbeddedResource Include="LTDWindow.resx">
           <DependentUpon>LTDWindow.cs</DependentUpon>
         </EmbeddedResource>
