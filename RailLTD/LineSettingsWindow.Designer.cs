@@ -128,6 +128,7 @@ namespace RailLTD
             this.stationAddText.Size = new System.Drawing.Size(320, 56);
             this.stationAddText.TabIndex = 54;
             this.stationAddText.Text = "";
+            this.stationAddText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.stationAddText_KeyPress);
             // 
             // stationLabel
             // 

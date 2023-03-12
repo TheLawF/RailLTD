@@ -9,8 +9,6 @@ namespace RailLTD
         public string Id;
         public int Number;
         public List<Station> Stations;
-        public List<string> Exits;
-        public Hashtable ExitNumbers;
         public Color LineColor;
 
         public RailLine(string id, int number, List<Station> stations, Color lineColor)

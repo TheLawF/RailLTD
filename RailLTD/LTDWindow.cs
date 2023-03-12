@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Timers;
@@ -34,11 +36,15 @@ namespace RailLTD
         private int _carriageIndex = 1;
 
         private List<Station> _stations = new List<Station>();
+        private List<RailLine> _lines = new List<RailLine>();
         private List<TimeTable> _timeTable = new List<TimeTable>();
         private List<string> _exits = new List<string>();
+
         private Hashtable _stationAndExit = new Hashtable();
         private ArrayList _lineItems = new ArrayList();
-        
+        private List<string> jsonList = new List<string>();
+        private JsonConfigure _jc;
+
         // 这里是CRT重庆轨道交通的一些路线颜色信息
         private readonly Color[] _crtColors =
         {
@@ -59,43 +65,21 @@ namespace RailLTD
 
         private void showLTD_Click(object sender, EventArgs e)
         {
-            var ltd = new LtdScene(_red, _green, _blue, _stations);
-            ltd.ShowDialog();
-        }
+            if (InputUtil.MatchRGBInt(redText.Text) &&
+                InputUtil.MatchRGBInt(greenText.Text) &&
+                InputUtil.MatchRGBInt(blueText.Text) &&
+                _jc == null)
+            {
+                var ltd = new LtdScene(_red, _green, _blue, _stations);
+                ltd.ShowDialog();
+            }
 
-        // 重写更改窗体大小的事件，以便让其适用于线段的绘制
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            var customPen = new Pen(Color.FromArgb(_red, _green, _blue), 30);
-            _graphics = CreateGraphics();
-            _graphics.Clear(BackColor);
-            _graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            
-            var start = new Point(0, Size.Height / 2);
-            var end = new Point(Size.Width, Size.Height / 2);
-            var unit = 1;
-            if (_stations.Count > 0)
+            else if (_jc != null)
             {
-                unit = Size.Width / _stations.Count;
+                var ltd = new LtdScene(_jc);
+                ltd.ShowDialog();
             }
             
-            var font = new Font("微软雅黑", 13.875F, 
-                FontStyle.Regular,GraphicsUnit.Point, 134);
-            
-            _graphics.DrawLine(customPen,start, end);
-            for (var i = 0; i < _stations.Count; i++)
-            {
-                _graphics.FillEllipse(new SolidBrush(Color.White),
-                    new Rectangle(new Point(i * unit, start.Y-15), Size.Round(new SizeF(28F, 28F))));
-                for (var j = 0; j < _stations[i].Name.ToCharArray().Length; j++)
-                {
-                    var str = _stations[i].Name.ToCharArray()[j].ToString();
-                    _graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    _graphics.DrawString(str, font, new SolidBrush(Color.Black),
-                        i * unit, start.Y + 12f + j * 15f);
-                }
-            }
         }
 
         private void idText_TextChanged(object sender, EventArgs e)
@@ -139,6 +123,8 @@ namespace RailLTD
         {
             _lineItems.Add(NoneLine);
             _lineItems.AddRange(CRTColor.Lines);
+            
+            jsonListBox.Items.Add("（无）");
             
             if (int.TryParse(msText.Text, out var ms))
             {
@@ -208,7 +194,9 @@ namespace RailLTD
 
         private void addLineButton_Click(object sender, EventArgs e)
         {
-            
+            var line = new RailLine(idText.Text, int.Parse(numText.Text),
+                _stations, Color.FromArgb(_red, _green, _blue));
+            lineListBox.Items.Add(line.Id);
         }
         
         private void LoadHomeScene()
@@ -314,11 +302,56 @@ namespace RailLTD
         {
             
         }
+
+        private void jsonListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void loadJsonButton_Click(object sender, EventArgs e)
+        {
+            var builder = new StringBuilder();
+            var ofd = new OpenFileDialog();
+            ofd.Filter = @"Json文件|*.json";
+            var result = ofd.ShowDialog();
+            
+            if (result != DialogResult.OK) return; //点击确定按钮
+            var jsonFile = new StreamReader(ofd.FileName, Encoding.UTF8);
+            
+            foreach (var jsonLine in jsonFile.ReadLine())
+            {
+                builder.Append(jsonLine);
+            }
+
+            _jc = JsonConvert.DeserializeObject<JsonConfigure>(builder.ToString());
+            jsonFile.Close();
+            jsonListBox.Items.Add(ofd.FileName);
+            jsonListBox.SelectedText = "";
+            jsonListBox.SelectedText = ofd.FileName;
+        }
+
+        private void saveJsonButton_Click(object sender, EventArgs e)
+        {
+            if (!int.TryParse(msText.Text, out var result)) return;
+            _jc.Interval = result;
+            _jc.Line = new RailLine(idText.Text, int.Parse(numText.Text), _stations,
+                Color.FromArgb(_red, _green, _blue));
+            SaveAsJson(_jc);
+        }
         
         public static void SaveAsJson(object o)
         {
-            var type = o.GetType();
             var output = JsonConvert.SerializeObject(o);
+            var ofd = new SaveFileDialog();
+            ofd.Filter = @"Json文件|*.json";
+            var result = ofd.ShowDialog();
+            
+            if (result != DialogResult.OK) return; //点击确定按钮
+            var jsonFile = new StreamWriter(ofd.FileName, true, Encoding.UTF8);
+            jsonFile.Write(output);
+            jsonFile.Close();
         }
+
+        
     }
 }

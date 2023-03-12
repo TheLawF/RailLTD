@@ -53,8 +53,10 @@ namespace RailLTD
             int.TryParse(exitNumBox.Text, out var num);
             var station = new Station(
                 stationAddText.Text,
-                exitInfoBox.Text,
-                num);
+                null,
+                0,
+                false,
+                null);
             Stations.Add(station);
             // stationDeleteBox.Items.Add(stationAddText.Text);
             fromComboBox.Items.Add(stationAddText.Text);
@@ -98,6 +100,24 @@ namespace RailLTD
                 // intervalListBox.Items.Add(station + ": " + time + "分钟");
                 
             }
+        }
+
+        private void stationAddText_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != (int)Keys.Enter) return;
+            int.TryParse(exitNumBox.Text, out var num);
+            var station = new Station(
+                stationAddText.Text,
+                null,
+                0,
+                false,
+                null);
+            Stations.Add(station);
+            // stationDeleteBox.Items.Add(stationAddText.Text);
+            fromComboBox.Items.Add(stationAddText.Text);
+            stationAddText.Text = @"";
+            Stations.ForEach(s => stationListBox.Items.Add(s.Name));
+            // AddInterval();
         }
     }
 }

@@ -51,6 +51,7 @@
     <ItemGroup>
         <Compile Include="CRTColor.cs" />
         <Compile Include="InputUtil.cs" />
+        <Compile Include="JsonConfigure.cs" />
         <Compile Include="LineSettingsWindow.cs">
           <SubType>Form</SubType>
         </Compile>

@@ -56,7 +56,10 @@ namespace RailLTD
             this.lineListBox = new System.Windows.Forms.ComboBox();
             this.findLineLabel = new System.Windows.Forms.Label();
             this.homePanel = new System.Windows.Forms.Panel();
-            this.saveConfigButton = new System.Windows.Forms.Button();
+            this.jsonLabel = new System.Windows.Forms.Label();
+            this.jsonListBox = new System.Windows.Forms.ComboBox();
+            this.loadJsonButton = new System.Windows.Forms.Button();
+            this.saveJsonButton = new System.Windows.Forms.Button();
             this.homePanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -162,7 +165,7 @@ namespace RailLTD
             // resetButton
             // 
             this.resetButton.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.resetButton.Location = new System.Drawing.Point(547, 695);
+            this.resetButton.Location = new System.Drawing.Point(613, 695);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(349, 66);
             this.resetButton.TabIndex = 17;
@@ -184,7 +187,7 @@ namespace RailLTD
             // editStationButton
             // 
             this.editStationButton.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.editStationButton.Location = new System.Drawing.Point(13, 486);
+            this.editStationButton.Location = new System.Drawing.Point(613, 392);
             this.editStationButton.Name = "editStationButton";
             this.editStationButton.Size = new System.Drawing.Size(240, 60);
             this.editStationButton.TabIndex = 21;
@@ -195,7 +198,7 @@ namespace RailLTD
             // switchingLabel
             // 
             this.switchingLabel.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.switchingLabel.Location = new System.Drawing.Point(9, 589);
+            this.switchingLabel.Location = new System.Drawing.Point(9, 499);
             this.switchingLabel.Name = "switchingLabel";
             this.switchingLabel.Size = new System.Drawing.Size(294, 58);
             this.switchingLabel.TabIndex = 39;
@@ -204,7 +207,7 @@ namespace RailLTD
             // msLabel
             // 
             this.msLabel.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.msLabel.Location = new System.Drawing.Point(578, 589);
+            this.msLabel.Location = new System.Drawing.Point(590, 500);
             this.msLabel.Name = "msLabel";
             this.msLabel.Size = new System.Drawing.Size(122, 58);
             this.msLabel.TabIndex = 41;
@@ -213,7 +216,7 @@ namespace RailLTD
             // msText
             // 
             this.msText.Font = new System.Drawing.Font("微软雅黑", 13.85F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.msText.Location = new System.Drawing.Point(302, 585);
+            this.msText.Location = new System.Drawing.Point(314, 496);
             this.msText.Name = "msText";
             this.msText.Size = new System.Drawing.Size(270, 56);
             this.msText.TabIndex = 42;
@@ -261,7 +264,10 @@ namespace RailLTD
             // 
             // homePanel
             // 
-            this.homePanel.Controls.Add(this.saveConfigButton);
+            this.homePanel.Controls.Add(this.jsonLabel);
+            this.homePanel.Controls.Add(this.jsonListBox);
+            this.homePanel.Controls.Add(this.loadJsonButton);
+            this.homePanel.Controls.Add(this.saveJsonButton);
             this.homePanel.Controls.Add(this.findLineLabel);
             this.homePanel.Controls.Add(this.lineListBox);
             this.homePanel.Controls.Add(this.lineRemoveButton);
@@ -288,15 +294,46 @@ namespace RailLTD
             this.homePanel.Size = new System.Drawing.Size(1403, 835);
             this.homePanel.TabIndex = 18;
             // 
-            // saveConfigButton
+            // jsonLabel
             // 
-            this.saveConfigButton.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.saveConfigButton.Location = new System.Drawing.Point(314, 486);
-            this.saveConfigButton.Name = "saveConfigButton";
-            this.saveConfigButton.Size = new System.Drawing.Size(240, 60);
-            this.saveConfigButton.TabIndex = 55;
-            this.saveConfigButton.Text = "保存配置";
-            this.saveConfigButton.UseVisualStyleBackColor = true;
+            this.jsonLabel.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.jsonLabel.Location = new System.Drawing.Point(613, 587);
+            this.jsonLabel.Name = "jsonLabel";
+            this.jsonLabel.Size = new System.Drawing.Size(217, 62);
+            this.jsonLabel.TabIndex = 58;
+            this.jsonLabel.Text = "配置列表：";
+            // 
+            // jsonListBox
+            // 
+            this.jsonListBox.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.jsonListBox.FormattingEnabled = true;
+            this.jsonListBox.Location = new System.Drawing.Point(836, 585);
+            this.jsonListBox.Name = "jsonListBox";
+            this.jsonListBox.Size = new System.Drawing.Size(429, 56);
+            this.jsonListBox.TabIndex = 57;
+            this.jsonListBox.SelectedIndexChanged += new System.EventHandler(this.jsonListBox_SelectedIndexChanged);
+            // 
+            // loadJsonButton
+            // 
+            this.loadJsonButton.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.loadJsonButton.Location = new System.Drawing.Point(314, 581);
+            this.loadJsonButton.Name = "loadJsonButton";
+            this.loadJsonButton.Size = new System.Drawing.Size(240, 60);
+            this.loadJsonButton.TabIndex = 56;
+            this.loadJsonButton.Text = "加载配置";
+            this.loadJsonButton.UseVisualStyleBackColor = true;
+            this.loadJsonButton.Click += new System.EventHandler(this.loadJsonButton_Click);
+            // 
+            // saveJsonButton
+            // 
+            this.saveJsonButton.Font = new System.Drawing.Font("微软雅黑", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.saveJsonButton.Location = new System.Drawing.Point(13, 581);
+            this.saveJsonButton.Name = "saveJsonButton";
+            this.saveJsonButton.Size = new System.Drawing.Size(240, 60);
+            this.saveJsonButton.TabIndex = 55;
+            this.saveJsonButton.Text = "保存配置";
+            this.saveJsonButton.UseVisualStyleBackColor = true;
+            this.saveJsonButton.Click += new System.EventHandler(this.saveJsonButton_Click);
             // 
             // LTDWindow
             // 
@@ -314,7 +351,12 @@ namespace RailLTD
             this.ResumeLayout(false);
         }
 
-        private System.Windows.Forms.Button saveConfigButton;
+        private System.Windows.Forms.ComboBox jsonListBox;
+        private System.Windows.Forms.Label jsonLabel;
+
+        private System.Windows.Forms.Button loadJsonButton;
+
+        private System.Windows.Forms.Button saveJsonButton;
 
         private System.Windows.Forms.Label idLabel;
         private System.Windows.Forms.RichTextBox idText;
